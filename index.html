@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Drop Shot Coffee — Executive Summary</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700;9..144,800;9..144,900&family=JetBrains+Mono:wght@300;400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1a1612; --paper: #f5f1e8; --paper-warm: #ede6d3;
+  --espresso: #3d2817; --espresso-deep: #2a1a0d;
+  --court: #4a7c3d; --court-deep: #2f5226; --court-light: #8fb47e;
+  --crema: #d4a574; --crema-light: #e8c9a0;
+  --signal: #c8553d; --signal-warm: #e07856; --signal-deep: #8a3825;
+  --rule: #c8bfa8; --rule-soft: #d9d1bc;
+  --muted: #6b5d4a; --muted-soft: #8a7d6a;
+  --gold: #b8862c;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--paper); color: var(--ink); line-height: 1.6;
+  font-feature-settings: 'ss01', 'cv11';
+  background-image: radial-gradient(at 15% 10%, rgba(184,134,44,0.06) 0px, transparent 50%), radial-gradient(at 85% 90%, rgba(74,124,61,0.05) 0px, transparent 50%);
+  min-height: 100vh;
+}
+
+/* NAV — matches other tabs */
+.nav { position: sticky; top: 0; z-index: 100; background: rgba(245,241,232,0.92); backdrop-filter: blur(20px); border-bottom: 1px solid var(--rule); padding: 14px 0; }
+.nav-inner { max-width: 1480px; margin: 0 auto; padding: 0 40px; display: flex; align-items: center; justify-content: space-between; gap: 32px; }
+.brand { display: flex; align-items: center; gap: 14px; font-family: 'Fraunces', serif; font-weight: 600; font-size: 18px; }
+.brand-mark { width: 32px; height: 32px; border-radius: 50%; background: var(--espresso-deep); display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(61,40,23,0.25); }
+.brand-mark::before { content: ''; width: 18px; height: 18px; border-radius: 50%; background: linear-gradient(135deg, var(--crema) 0%, var(--crema-light) 100%); box-shadow: inset 0 1px 2px rgba(0,0,0,0.15); }
+.tabs { display: flex; gap: 2px; background: var(--paper-warm); padding: 4px; border-radius: 10px; border: 1px solid var(--rule-soft); }
+.tab { padding: 8px 18px; font-size: 13px; font-weight: 500; color: var(--muted); background: transparent; border: none; border-radius: 7px; cursor: pointer; transition: all 0.2s ease; font-family: 'Inter', sans-serif; }
+.tab:hover { color: var(--ink); }
+.tab.active { background: var(--ink); color: var(--paper); box-shadow: 0 1px 3px rgba(0,0,0,0.15); }
+
+.container { max-width: 1480px; margin: 0 auto; padding: 60px 40px 100px; }
+
+/* MASTHEAD */
+.masthead { margin-bottom: 48px; padding-bottom: 36px; border-bottom: 1px solid var(--rule); }
+.masthead-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500; color: var(--gold); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+.masthead-eyebrow::after { content: ''; flex: 1; height: 1px; background: var(--rule); max-width: 60px; }
+.masthead h1 { font-family: 'Fraunces', serif; font-size: clamp(40px, 5.5vw, 64px); font-weight: 400; line-height: 0.98; letter-spacing: -0.04em; margin-bottom: 16px; }
+.masthead h1 em { font-style: italic; font-weight: 300; color: var(--signal); }
+.masthead-sub { font-family: 'Fraunces', serif; font-size: 20px; font-style: italic; color: var(--muted); font-weight: 300; max-width: 720px; line-height: 1.4; }
+
+/* KPI STRIP */
+.kpi-strip { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-bottom: 60px; }
+.kpi-tile { background: white; border: 1px solid var(--rule-soft); border-radius: 14px; padding: 22px 20px; position: relative; overflow: hidden; transition: all 0.2s ease; }
+.kpi-tile:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(26,22,18,0.06); }
+.kpi-tile::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--signal); }
+.kpi-tile-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+.kpi-tile-value { font-family: 'Fraunces', serif; font-size: 30px; font-weight: 500; letter-spacing: -0.02em; line-height: 1.05; margin-bottom: 6px; color: var(--ink); }
+.kpi-tile-value sup { font-size: 0.5em; font-weight: 400; color: var(--muted); margin-left: 2px; vertical-align: 0.5em; }
+.kpi-tile-detail { font-family: 'Inter', sans-serif; font-size: 11.5px; color: var(--muted); line-height: 1.4; }
+
+/* SECTIONS */
+.section { margin-top: 80px; }
+.section-head { margin-bottom: 32px; display: flex; align-items: end; justify-content: space-between; gap: 32px; padding-bottom: 18px; border-bottom: 1px solid var(--rule-soft); }
+.section-head-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 500; color: var(--muted); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 10px; }
+.section-head h2 { font-family: 'Fraunces', serif; font-size: 36px; font-weight: 400; letter-spacing: -0.02em; line-height: 1.05; }
+.section-head h2 em { font-style: italic; font-weight: 300; color: var(--signal); }
+.section-head-meta { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.04em; text-align: right; line-height: 1.7; max-width: 320px; }
+
+/* §01 — THESIS */
+.thesis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+.thesis-card { background: white; border: 1px solid var(--rule-soft); border-radius: 14px; padding: 32px; }
+.thesis-card-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+.thesis-card.thesis-old .thesis-card-eyebrow { color: var(--muted-soft); }
+.thesis-card.thesis-new .thesis-card-eyebrow { color: var(--signal); }
+.thesis-card h3 { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 500; letter-spacing: -0.01em; margin-bottom: 16px; }
+.thesis-card.thesis-old { background: rgba(245,241,232,0.5); }
+.thesis-card.thesis-old h3 { color: var(--muted); text-decoration: line-through; text-decoration-color: rgba(107,93,74,0.4); text-decoration-thickness: 1px; }
+.thesis-card p { font-size: 14.5px; color: var(--espresso); line-height: 1.6; margin-bottom: 14px; }
+.thesis-card p strong { color: var(--ink); font-weight: 600; }
+.thesis-card.thesis-old p { color: var(--muted); }
+.thesis-card ul { list-style: none; padding: 0; margin-top: 20px; }
+.thesis-card ul li { font-size: 13.5px; padding: 6px 0; padding-left: 22px; position: relative; color: var(--espresso); }
+.thesis-card.thesis-new ul li::before { content: '→'; position: absolute; left: 0; color: var(--signal); font-weight: 600; }
+.thesis-card.thesis-old ul li::before { content: '×'; position: absolute; left: 0; color: var(--muted-soft); font-weight: 600; }
+
+/* §02 — NUMBERS */
+.numbers-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 24px; }
+.num-card { background: white; border: 1px solid var(--rule-soft); border-radius: 14px; padding: 28px; }
+.num-card-headline { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 500; color: var(--ink); margin-bottom: 8px; letter-spacing: -0.01em; }
+.num-card-sub { font-family: 'Inter', sans-serif; font-size: 12.5px; color: var(--muted); margin-bottom: 24px; line-height: 1.5; }
+.num-line { display: flex; justify-content: space-between; align-items: baseline; padding: 11px 0; border-bottom: 1px solid var(--rule-soft); }
+.num-line:last-child { border-bottom: none; }
+.num-line .num-line-label { font-family: 'Inter', sans-serif; font-size: 13px; color: var(--espresso); font-weight: 500; }
+.num-line .num-line-sub { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--muted-soft); margin-top: 2px; display: block; }
+.num-line .num-line-value { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; }
+.num-line.num-line-total { padding-top: 18px; margin-top: 8px; border-top: 2px solid var(--rule); border-bottom: none; }
+.num-line.num-line-total .num-line-label { font-family: 'Fraunces', serif; font-size: 16px; font-weight: 500; }
+.num-line.num-line-total .num-line-value { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 500; color: var(--court-deep); }
+.num-line.num-line-deficit .num-line-value { color: var(--signal); }
+
+/* §03 — TIMELINE */
+.timeline-wrap { background: white; border: 1px solid var(--rule-soft); border-radius: 14px; padding: 36px 36px 28px; overflow-x: auto; }
+.timeline-svg { width: 100%; min-width: 1100px; display: block; }
+
+/* §04 — DELIVERABLES GRID */
+.deliv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.deliv-card { background: white; border: 1px solid var(--rule-soft); border-radius: 14px; padding: 26px 24px; transition: all 0.2s ease; }
+.deliv-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(26,22,18,0.06); }
+.deliv-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--signal); margin-bottom: 10px; }
+.deliv-title { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 500; letter-spacing: -0.01em; margin-bottom: 10px; line-height: 1.2; }
+.deliv-detail { font-family: 'Inter', sans-serif; font-size: 13px; color: var(--espresso); line-height: 1.55; }
+.deliv-detail strong { color: var(--ink); font-weight: 600; }
+
+/* §05 — NAVIGATE */
+.nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.nav-card { background: var(--ink); color: var(--paper); border-radius: 14px; padding: 36px; cursor: pointer; transition: all 0.2s ease; position: relative; overflow: hidden; text-decoration: none; display: block; }
+.nav-card:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(26,22,18,0.18); }
+.nav-card::after { content: '→'; position: absolute; top: 36px; right: 36px; font-size: 32px; color: var(--gold); transition: transform 0.2s ease; }
+.nav-card:hover::after { transform: translateX(6px); }
+.nav-card-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--crema); margin-bottom: 14px; }
+.nav-card h3 { font-family: 'Fraunces', serif; font-size: 28px; font-weight: 400; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 12px; max-width: 80%; }
+.nav-card h3 em { color: var(--crema-light); font-style: italic; font-weight: 300; }
+.nav-card p { font-family: 'Inter', sans-serif; font-size: 13.5px; color: rgba(245,241,232,0.7); line-height: 1.55; max-width: 90%; }
+
+/* Footer */
+.footer { margin-top: 100px; padding-top: 36px; border-top: 1px solid var(--rule); text-align: center; }
+.footer-quote { font-family: 'Fraunces', serif; font-size: 18px; font-style: italic; color: var(--muted); max-width: 640px; margin: 0 auto 16px; line-height: 1.5; }
+.footer-meta { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted-soft); letter-spacing: 0.18em; text-transform: uppercase; }
+
+@media (max-width: 1100px) {
+  .kpi-strip { grid-template-columns: repeat(2, 1fr); }
+  .thesis-grid { grid-template-columns: 1fr; }
+  .numbers-grid { grid-template-columns: 1fr; }
+  .deliv-grid { grid-template-columns: repeat(2, 1fr); }
+  .nav-grid { grid-template-columns: 1fr; }
+}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="brand"><div class="brand-mark"></div><span>Drop Shot Coffee</span></div>
+    <div class="tabs">
+      <button class="tab active">Executive Summary</button>
+      <button class="tab" onclick="window.location.href='planb_dashboard.html'">POC Plan</button>
+      <button class="tab" onclick="window.location.href='financial_model.html'">POC Financial Model</button>
+    </div>
+    <div style="width:100px;"><!-- spacer for nav balance --></div>
+  </div>
+</nav>
+
+<div class="container">
+
+  <header class="masthead">
+    <div class="masthead-eyebrow">Plan B · Investor & Founder Briefing · May 2026</div>
+    <h1>The expandable<br><em>tournament model.</em></h1>
+    <p class="masthead-sub">A premium beverage brand for social court sports, built around three tournaments, a fleet of carts, an adaptable menu, and the ambassadors who unlock scale. Growth comes from events — not real estate.</p>
+  </header>
+
+  <div class="kpi-strip">
+    <div class="kpi-tile">
+      <div class="kpi-tile-eyebrow">Funding (base)</div>
+      <div class="kpi-tile-value" id="kpiFunding">$270<sup>K</sup></div>
+      <div class="kpi-tile-detail" id="kpiFundingDetail">Baseline raise. Editable in the POC Financial Model.</div>
+    </div>
+    <div class="kpi-tile">
+      <div class="kpi-tile-eyebrow">Duration</div>
+      <div class="kpi-tile-value" id="kpiDuration">10<sup>mo</sup></div>
+      <div class="kpi-tile-detail">May 2026 → March 2027. POC end-state.</div>
+    </div>
+    <div class="kpi-tile">
+      <div class="kpi-tile-eyebrow">Tournaments</div>
+      <div class="kpi-tile-value" id="kpiTournaments">3</div>
+      <div class="kpi-tile-detail">T1 baseline, T2 + T3 scale to 500 players each.</div>
+    </div>
+    <div class="kpi-tile">
+      <div class="kpi-tile-eyebrow">Direct Cost</div>
+      <div class="kpi-tile-value" id="kpiDirectCost">$169<sup>K</sup></div>
+      <div class="kpi-tile-detail">Celoxis schedule · 86 tasks · 12 workstreams.</div>
+    </div>
+    <div class="kpi-tile">
+      <div class="kpi-tile-eyebrow">Ending Cash</div>
+      <div class="kpi-tile-value" id="kpiEndingCash">$63<sup>K</sup></div>
+      <div class="kpi-tile-detail" id="kpiEndingCashDetail">Surplus, not survival.</div>
+    </div>
+  </div>
+
+  <!-- §01 THESIS -->
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <div class="section-head-eyebrow">§ 01 — The Thesis</div>
+        <h2>The bottleneck has <em>shifted.</em></h2>
+      </div>
+      <div class="section-head-meta">
+        The original prospectus assumed venue-gated scaling.<br>
+        The new model rejects that constraint.
+      </div>
+    </div>
+
+    <div class="thesis-grid">
+      <div class="thesis-card thesis-old">
+        <div class="thesis-card-eyebrow">Original Model · Deferred</div>
+        <h3>Venue-anchored coffee brand</h3>
+        <p>Growth comes from signing more permanent locations. Each spot caps at ~450 cups/day. Capex is sunk per location. Scaling is bureaucratic, slow, and gated by landlords and operators.</p>
+        <ul>
+          <li>Permanent installs as the scaling lever</li>
+          <li>Linear, location-by-location growth</li>
+          <li>Fixed menu, fixed footprint</li>
+          <li>Venue search = 6–12 month cycles</li>
+        </ul>
+      </div>
+      <div class="thesis-card thesis-new">
+        <div class="thesis-card-eyebrow">Active Model · Plan B</div>
+        <h3>Mobile tournament beverage operator</h3>
+        <p>Growth comes from <strong>more events × more ambassadors</strong>. Pickleball coaches making $80/hr in lessons are eager to run $2–5K events. Carts are mobile and redeploy across the calendar. Capex is variable, not sunk.</p>
+        <ul>
+          <li>Events + ambassadors as the scaling lever</li>
+          <li>Combinatorial growth via the calendar</li>
+          <li>Menu adapts per season and theme</li>
+          <li>Doubling participants doubles revenue</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- §02 NUMBERS -->
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <div class="section-head-eyebrow">§ 02 — The Numbers</div>
+        <h2>Where the cash <em>actually lands.</em></h2>
+      </div>
+      <div class="section-head-meta">
+        <span id="numMeta">At $270K raised · $8K/mo founder base · waterfall zeroed for POC</span><br>
+        <span id="numMetaB">Three tournaments retain $105K to company.</span>
+      </div>
+    </div>
+
+    <div class="numbers-grid">
+      <div class="num-card" style="grid-column: span 1;">
+        <div class="num-card-headline">Capital Deployment</div>
+        <div class="num-card-sub" id="capSub">Where the raise + tournament revenue is committed across the POC.</div>
+        <div class="num-line">
+          <span class="num-line-label">Investor funding<span class="num-line-sub">Headway VC raise</span></span>
+          <span class="num-line-value" id="capFunding">+$270,000</span>
+        </div>
+        <div class="num-line">
+          <span class="num-line-label">Tournament revenue (3 events)<span class="num-line-sub">Entries + add-on drinks · retained 96%</span></span>
+          <span class="num-line-value" id="capTRev">+$170,405</span>
+        </div>
+        <div class="num-line">
+          <span class="num-line-label">League revenue (2 seasons)<span class="num-line-sub">60 + 75 participants · 13 weeks each</span></span>
+          <span class="num-line-value" id="capLRev">+$15,990</span>
+        </div>
+        <div class="num-line">
+          <span class="num-line-label">Direct project costs<span class="num-line-sub">Celoxis schedule (86 tasks)</span></span>
+          <span class="num-line-value" id="capDirect">−$169,200</span>
+        </div>
+        <div class="num-line">
+          <span class="num-line-label" id="capFounderLabel">Founder base<span class="num-line-sub" id="capFounderSub">$8,000 per founder per month</span></span>
+          <span class="num-line-value" id="capFounder">−$160,000</span>
+        </div>
+        <div class="num-line">
+          <span class="num-line-label">Overhead (recurring)<span class="num-line-sub" id="capOverheadSub">$2,700/mo × 10 months</span></span>
+          <span class="num-line-value" id="capOverhead">−$27,000</span>
+        </div>
+        <div class="num-line">
+          <span class="num-line-label">Drink COGS · contingency<span class="num-line-sub">~$7K COGS + $20K reserve</span></span>
+          <span class="num-line-value" id="capCogs">−$27,744</span>
+        </div>
+        <div class="num-line num-line-total">
+          <span class="num-line-label">Ending cash at POC</span>
+          <span class="num-line-value" id="capEnding">$63,451</span>
+        </div>
+      </div>
+
+      <div class="num-card" style="grid-column: span 1;">
+        <div class="num-card-headline">Tournament Unit Economics</div>
+        <div class="num-card-sub">T1 baseline · 350 players · $100 entry. T2/T3 scale to 500p / $120.</div>
+        <div class="num-line">
+          <span class="num-line-label">T1 — Sep 4–6 · Centerline<span class="num-line-sub">350 players · breakeven at 170</span></span>
+          <span class="num-line-value" id="t1Net">$18,955</span>
+        </div>
+        <div class="num-line">
+          <span class="num-line-label">T2 — Oct 9–11 · App V1<span class="num-line-sub">500 players · $120 entry</span></span>
+          <span class="num-line-value" id="t2Net">$42,870</span>
+        </div>
+        <div class="num-line">
+          <span class="num-line-label">T3 — Halloween weekend<span class="num-line-sub">500 players · theme-adapted menu</span></span>
+          <span class="num-line-value" id="t3Net">$43,140</span>
+        </div>
+        <div class="num-line num-line-total">
+          <span class="num-line-label" id="tNetLabel">Tournament net (all 3)</span>
+          <span class="num-line-value" id="tNetTotal">$104,965</span>
+        </div>
+      </div>
+
+      <div class="num-card" style="grid-column: span 1;">
+        <div class="num-card-headline">Safety Cushion</div>
+        <div class="num-card-sub">How much room before the model breaks at each event.</div>
+        <div class="num-line">
+          <span class="num-line-label">T1 breakeven<span class="num-line-sub">Players needed to clear $18K direct cost</span></span>
+          <span class="num-line-value">170</span>
+        </div>
+        <div class="num-line">
+          <span class="num-line-label">T1 baseline players<span class="num-line-sub">+180 above breakeven (+105%)</span></span>
+          <span class="num-line-value">350</span>
+        </div>
+        <div class="num-line">
+          <span class="num-line-label">Gross margin on revenue<span class="num-line-sub">$186K total revenue, drinks COGS only</span></span>
+          <span class="num-line-value">96%</span>
+        </div>
+        <div class="num-line num-line-total">
+          <span class="num-line-label">Cash low point</span>
+          <span class="num-line-value" style="color: var(--gold);">~$76K Aug</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- §03 TIMELINE -->
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <div class="section-head-eyebrow">§ 03 — Timeline</div>
+        <h2>10 months, <em>from raise to POC.</em></h2>
+      </div>
+      <div class="section-head-meta">
+        Hard constraints: Sep 4–6 (T1 at Centerline)<br>
+        T2 and T3 cluster Q4 2026; mini-league spans the back half
+      </div>
+    </div>
+
+    <div class="timeline-wrap">
+      <svg class="timeline-svg" viewBox="0 0 1200 320" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="planb-flow" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#c8553d" stop-opacity="0.18"/>
+            <stop offset="100%" stop-color="#c8553d" stop-opacity="0.05"/>
+          </linearGradient>
+        </defs>
+        <!-- timeline axis -->
+        <line x1="80" y1="240" x2="1140" y2="240" stroke="#c8bfa8" stroke-width="1.5"/>
+        <!-- Month ticks -->
+        <g font-family="JetBrains Mono, monospace" font-size="10" fill="#6b5d4a" text-anchor="middle">
+          <line x1="100" y1="236" x2="100" y2="244" stroke="#c8bfa8" stroke-width="1.5"/><text x="100" y="262">May</text>
+          <line x1="195" y1="236" x2="195" y2="244" stroke="#c8bfa8" stroke-width="1.5"/><text x="195" y="262">Jun</text>
+          <line x1="290" y1="236" x2="290" y2="244" stroke="#c8bfa8" stroke-width="1.5"/><text x="290" y="262">Jul</text>
+          <line x1="385" y1="236" x2="385" y2="244" stroke="#c8bfa8" stroke-width="1.5"/><text x="385" y="262">Aug</text>
+          <line x1="480" y1="236" x2="480" y2="244" stroke="#c8bfa8" stroke-width="1.5"/><text x="480" y="262">Sep</text>
+          <line x1="575" y1="236" x2="575" y2="244" stroke="#c8bfa8" stroke-width="1.5"/><text x="575" y="262">Oct</text>
+          <line x1="670" y1="236" x2="670" y2="244" stroke="#c8bfa8" stroke-width="1.5"/><text x="670" y="262">Nov</text>
+          <line x1="765" y1="236" x2="765" y2="244" stroke="#c8bfa8" stroke-width="1.5"/><text x="765" y="262">Dec</text>
+          <line x1="860" y1="236" x2="860" y2="244" stroke="#c8bfa8" stroke-width="1.5"/><text x="860" y="262">Jan</text>
+          <line x1="955" y1="236" x2="955" y2="244" stroke="#c8bfa8" stroke-width="1.5"/><text x="955" y="262">Feb</text>
+          <line x1="1050" y1="236" x2="1050" y2="244" stroke="#c8bfa8" stroke-width="1.5"/><text x="1050" y="262">Mar</text>
+        </g>
+        <g font-family="JetBrains Mono, monospace" font-size="9" fill="#8a7d6a" text-anchor="middle">
+          <text x="100" y="284">'26</text>
+          <text x="860" y="284">'27</text>
+        </g>
+
+        <!-- Test League band -->
+        <rect x="195" y="195" width="285" height="14" rx="3" fill="#8fb47e" opacity="0.45"/>
+        <text x="338" y="206" font-family="Inter, sans-serif" font-size="10" fill="#2f5226" font-weight="600" text-anchor="middle">Mini League — Test (Jun–Aug)</text>
+
+        <!-- Full Season 1 band -->
+        <rect x="480" y="170" width="285" height="14" rx="3" fill="#4a7c3d" opacity="0.5"/>
+        <text x="623" y="181" font-family="Inter, sans-serif" font-size="10" fill="white" font-weight="600" text-anchor="middle">Full Season 1 (Sep–Dec)</text>
+
+        <!-- Full Season 2 band -->
+        <rect x="765" y="170" width="380" height="14" rx="3" fill="#4a7c3d" opacity="0.7"/>
+        <text x="955" y="181" font-family="Inter, sans-serif" font-size="10" fill="white" font-weight="600" text-anchor="middle">Full Season 2 (Dec–Mar)</text>
+
+        <!-- Build / scoping band -->
+        <rect x="100" y="220" width="380" height="10" rx="2" fill="#3d2817" opacity="0.4"/>
+        <text x="290" y="219" font-family="JetBrains Mono, monospace" font-size="9" fill="#3d2817" font-weight="600" text-anchor="middle" letter-spacing="0.08em">BRAND · CART · APP V1 · MENU R&amp;D</text>
+
+        <!-- Tournament markers -->
+        <g>
+          <!-- T1 -->
+          <circle cx="495" cy="100" r="22" fill="#c8553d"/>
+          <text x="495" y="105" font-family="Fraunces, serif" font-size="13" fill="white" font-weight="700" text-anchor="middle">T1</text>
+          <line x1="495" y1="124" x2="495" y2="232" stroke="#c8553d" stroke-width="1.5" stroke-dasharray="3,3"/>
+          <text x="495" y="56" font-family="Fraunces, serif" font-size="12" fill="#3d2817" font-weight="600" text-anchor="middle">Tournament 1</text>
+          <text x="495" y="72" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#8a3825" text-anchor="middle" letter-spacing="0.08em">SEP 4–6 · 350P</text>
+        </g>
+        <g>
+          <!-- T2 -->
+          <circle cx="590" cy="100" r="22" fill="#c8553d"/>
+          <text x="590" y="105" font-family="Fraunces, serif" font-size="13" fill="white" font-weight="700" text-anchor="middle">T2</text>
+          <line x1="590" y1="124" x2="590" y2="232" stroke="#c8553d" stroke-width="1.5" stroke-dasharray="3,3"/>
+          <text x="590" y="56" font-family="Fraunces, serif" font-size="12" fill="#3d2817" font-weight="600" text-anchor="middle">Tournament 2</text>
+          <text x="590" y="72" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#8a3825" text-anchor="middle" letter-spacing="0.08em">OCT 9–11 · 500P</text>
+        </g>
+        <g>
+          <!-- T3 -->
+          <circle cx="660" cy="100" r="22" fill="#c8553d"/>
+          <text x="660" y="105" font-family="Fraunces, serif" font-size="13" fill="white" font-weight="700" text-anchor="middle">T3</text>
+          <line x1="660" y1="124" x2="660" y2="232" stroke="#c8553d" stroke-width="1.5" stroke-dasharray="3,3"/>
+          <text x="660" y="38" font-family="Fraunces, serif" font-size="12" fill="#3d2817" font-weight="600" text-anchor="middle">Tournament 3</text>
+          <text x="660" y="54" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#8a3825" text-anchor="middle" letter-spacing="0.08em">OCT 31 – NOV 2</text>
+          <text x="660" y="70" font-family="JetBrains Mono, monospace" font-size="9" fill="#b8862c" text-anchor="middle" letter-spacing="0.08em">HALLOWEEN · 500P</text>
+        </g>
+
+        <!-- POC end marker -->
+        <g>
+          <line x1="1075" y1="80" x2="1075" y2="245" stroke="#3d2817" stroke-width="2"/>
+          <rect x="1010" y="62" width="130" height="22" rx="4" fill="#3d2817"/>
+          <text x="1075" y="77" font-family="Inter, sans-serif" font-size="11" fill="white" font-weight="600" text-anchor="middle">POC · Mar 9, 2027</text>
+        </g>
+
+        <!-- Today marker -->
+        <g>
+          <line x1="135" y1="100" x2="135" y2="245" stroke="#b8862c" stroke-width="1.5" stroke-dasharray="3,3"/>
+          <rect x="100" y="84" width="70" height="18" rx="3" fill="#b8862c"/>
+          <text x="135" y="96" font-family="Inter, sans-serif" font-size="10" fill="white" font-weight="600" text-anchor="middle">TODAY</text>
+        </g>
+      </svg>
+    </div>
+  </section>
+
+  <!-- §04 DELIVERABLES -->
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <div class="section-head-eyebrow">§ 04 — What We're Building</div>
+        <h2>Six deliverables, <em>one engine.</em></h2>
+      </div>
+      <div class="section-head-meta">
+        Each deliverable feeds the others.<br>
+        See the POC Plan for full WBS detail.
+      </div>
+    </div>
+
+    <div class="deliv-grid">
+      <div class="deliv-card">
+        <div class="deliv-eyebrow">Tournaments · T-1 / T-2 / T-3</div>
+        <div class="deliv-title">Three tournaments executed</div>
+        <div class="deliv-detail">
+          T1 at Centerline (350p baseline), T2 with App V1 deployed (500p), T3 on Halloween weekend (500p, theme-adapted). <strong>The scaling proof point</strong>: doubling players doubles revenue without doubling capex.
+        </div>
+      </div>
+      <div class="deliv-card">
+        <div class="deliv-eyebrow">Carts · E-2 / E-3</div>
+        <div class="deliv-title">Two-to-three cart fleet</div>
+        <div class="deliv-detail">
+          Custom branded cart for T1 (Jul 23 ready). Second and third carts provisioned to service the expandable model — <strong>mobile, redeployable</strong> across the event calendar.
+        </div>
+      </div>
+      <div class="deliv-card">
+        <div class="deliv-eyebrow">Software · S-1</div>
+        <div class="deliv-title">App V1 live and deployed</div>
+        <div class="deliv-detail">
+          Build, QA, and deploy by Aug 12. Player coordination, event sign-up, points and rewards. <strong>Deployed at Tournament 2</strong> with full UX — the foundation layer for the ambassador-led engine.
+        </div>
+      </div>
+      <div class="deliv-card">
+        <div class="deliv-eyebrow">Menu · M-2 / M-3</div>
+        <div class="deliv-title">Adaptable per season / theme</div>
+        <div class="deliv-detail">
+          Core curated menu with roaster partner, plus <strong>seasonal and tournament-themed variations</strong> tested across T1, T2, and T3. Halloween-themed for T3 validates the model.
+        </div>
+      </div>
+      <div class="deliv-card">
+        <div class="deliv-eyebrow">Mini League · V-1.5 / V-1.6</div>
+        <div class="deliv-title">9 months of recurring play</div>
+        <div class="deliv-detail">
+          Test season (Jun–Aug) builds community baseline. Two full league seasons (Sep–Dec, Dec–Mar) at 60 / 75 participants. <strong>Recurring monetization</strong> alongside the event engine.
+        </div>
+      </div>
+      <div class="deliv-card">
+        <div class="deliv-eyebrow">Ambassadors · A-0 / A-1 / A-2</div>
+        <div class="deliv-title">Two ambassadors activated</div>
+        <div class="deliv-detail">
+          Jonas Satuito as lead ambassador (signed). Second ambassador identified, signed, and activation plan commissioned by Jun 7. <strong>The scaling lever</strong> for the entire model.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- §05 NAVIGATE -->
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <div class="section-head-eyebrow">§ 05 — Go Deeper</div>
+        <h2>Two tabs <em>for the rest of the story.</em></h2>
+      </div>
+      <div class="section-head-meta">
+        Schedule, scope, and budget detail on the POC Plan.<br>
+        Live financial modeling — every input editable — in the POC Financial Model.
+      </div>
+    </div>
+
+    <div class="nav-grid">
+      <a class="nav-card" href="planb_dashboard.html">
+        <div class="nav-card-eyebrow">POC Plan</div>
+        <h3>The <em>schedule and scope</em> at task level.</h3>
+        <p>86 tasks across 12 workstreams. POC deliverables, cost & schedule breakdown, Gantt with critical-path tracing. Built from the Celoxis schedule.</p>
+      </a>
+      <a class="nav-card" href="financial_model.html">
+        <div class="nav-card-eyebrow">POC Financial Model</div>
+        <h3>The <em>live model</em> behind every number.</h3>
+        <p>Editable funding, per-tournament economics, per-league economics, founder bonus waterfall, P&L, and the month-by-month cash flow table with custom rows and manual overrides.</p>
+      </a>
+    </div>
+  </section>
+
+  <div class="footer">
+    <p class="footer-quote">"We're not abandoning permanent locations — we're earning the right to them by proving demand first. Events unlock everything; everything else follows."</p>
+    <p class="footer-meta">Drop Shot Coffee · Internal Strategic Use · May 2026</p>
+  </div>
+
+</div>
+
+
+<script>
+// =========================================================
+// EXECUTIVE SUMMARY — every dynamic figure is a direct result of the POC Plan and
+// the POC Financial Model. We read the published results from the shared model
+// document; the math lives in one place (the model), never duplicated here.
+// =========================================================
+const POC_SUPABASE_URL = 'https://iwufnpzlwxzzedwcrjrk.supabase.co';
+const POC_SUPABASE_ANON_KEY = 'sb_publishable_suHnnWiR60uSP_bKx9V_Yg_GJoCzddq';
+const POC_DOC_KEY = 'live';
+
+const money  = n => '$' + Math.round(n).toLocaleString('en-US');
+const moneyK = n => '$' + Math.round(n / 1000);
+const set    = (id, html) => { const el = document.getElementById(id); if (el) el.innerHTML = html; };
+
+async function loadPublished() {
+  try {
+    const sb = window.supabase.createClient(POC_SUPABASE_URL, POC_SUPABASE_ANON_KEY);
+    const { data, error } = await sb.from('poc_model').select('state').eq('doc_key', POC_DOC_KEY).maybeSingle();
+    if (error || !data || !data.state) return null;
+    return data.state.published || null;
+  } catch (e) { return null; }
+}
+
+function paint(p) {
+  if (!p) return;   // DB unreachable — leave the baked baseline figures in place
+
+  const months = p.duration_months || 10;
+
+  // KPI strip
+  set('kpiFunding', moneyK(p.funding) + '<sup>K</sup>');
+  set('kpiFundingDetail', p.funding === p.funding_baseline
+    ? 'Baseline raise. Editable in the POC Financial Model.'
+    : 'Baseline ' + moneyK(p.funding_baseline) + 'K. Currently modeled at ' + moneyK(p.funding) + 'K.');
+  set('kpiDuration', months + '<sup>mo</sup>');
+  set('kpiTournaments', String(p.tournament_count));
+  set('kpiDirectCost', moneyK(p.total_direct_cost) + '<sup>K</sup>');
+  set('kpiEndingCash', moneyK(p.ending_cash) + '<sup>K</sup>');
+  set('kpiEndingCashDetail', p.ending_cash >= 0 ? 'Surplus, not survival.' : 'Shortfall against the current model.');
+
+  // Section meta
+  const founderMonthly = months ? Math.round(p.founder_base / months) : 0;
+  set('numMeta', 'At ' + moneyK(p.funding) + 'K raised · ' + money(founderMonthly) + '/mo founder base · waterfall '
+    + (p.founder_bonus_total > 0 ? 'active' : 'zeroed for POC'));
+  set('numMetaB', p.tournament_count + ' tournaments retain ' + moneyK(p.tournament_net_total) + 'K to company.');
+
+  // Capital deployment
+  set('capSub', 'Where the ' + moneyK(p.funding) + 'K + tournament revenue is committed across the ' + months + '-month POC.');
+  set('capFunding',  '+' + money(p.funding));
+  set('capTRev',     '+' + money(p.tournament_revenue));
+  set('capLRev',     '+' + money(p.league_revenue));
+  set('capDirect',   '−' + money(p.total_direct_cost));
+  set('capFounder',  '−' + money(p.founder_base + p.founder_bonus_total));
+  set('capFounderSub', money(founderMonthly) + ' per month across ' + months + ' months');
+  set('capOverhead', '−' + money(p.overhead_total));
+  set('capOverheadSub', money(p.overhead_monthly) + '/mo × ' + months + ' months');
+  set('capCogs',     '−' + money(p.total_cogs + p.contingency));
+  set('capEnding',   money(p.ending_cash));
+
+  // Tournament unit economics — driven by the model's event list
+  const t = p.tournaments || [];
+  ['t1Net','t2Net','t3Net'].forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (t[i]) { el.textContent = money(t[i].net_profit); }
+    else { const row = el.closest('.num-line'); if (row) row.style.display = 'none'; }
+  });
+  set('tNetLabel', 'Tournament net (all ' + t.length + ')');
+  set('tNetTotal', money(p.tournament_net_total));
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+  paint(await loadPublished());
+});
+</script>
+</body>
+</html>
